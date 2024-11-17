@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
+from users.models import Profile
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,3 +13,10 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['id', 'profile', 'research_title', 'research_description', 'user']
+        extra_kwargs = {'user': {'read_only': True}}
